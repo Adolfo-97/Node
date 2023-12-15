@@ -2,4 +2,6 @@ function outputMessage(message) {
   console.log(`Sto ricevendo come messaggio ${message}`);
 }
 
-module.exports = outputMessage;
+export default outputMessage;
+/* module.exports = outputMessage;
+ */
