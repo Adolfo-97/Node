@@ -1,9 +1,29 @@
-import { writeFile } from "node:fs";
-import { Buffer } from "node:buffer";
+function luckyDraw(player) {
+  return new Promise((resolve, reject) => {
+    const win = true; /* Boolean(Math.round(Math.random())) */
 
-//Message to be saved
-const message = new Uint8Array(Buffer.from("Ciao Node.js"));
-writeFile("message.txt", message, "utf8", (err) => {
-  if (err) throw err;
-  console.log("The file has been saved!");
-});
+    process.nextTick(() => {
+      if (win) {
+        resolve(`${player} won a prize in the draw!`);
+      } else {
+        reject(new Error(`${player} lost the draw.`));
+      }
+    });
+  });
+}
+
+luckyDraw("Joe")
+  .then((result) => {
+    console.log(result);
+    return luckyDraw("Carolina");
+  })
+  .then((result) => {
+    console.log(result);
+    return luckyDraw("Sabrina");
+  })
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
