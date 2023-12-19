@@ -1,6 +1,6 @@
 function luckyDraw(player) {
   return new Promise((resolve, reject) => {
-    const win = true; /* Boolean(Math.round(Math.random())) */
+    const win = Boolean(Math.round(Math.random()));
 
     process.nextTick(() => {
       if (win) {
