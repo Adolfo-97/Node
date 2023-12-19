@@ -1,6 +1,6 @@
 function luckyDraw(player) {
   return new Promise((resolve, reject) => {
-    const win = true; /* Boolean(Math.round(Math.random())) */
+    const win = Boolean(Math.round(Math.random()));
 
     process.nextTick(() => {
       if (win) {
@@ -11,19 +11,13 @@ function luckyDraw(player) {
     });
   });
 }
+async function getResults() {
+  const data1 = await luckyDraw("Tina");
+  console.log(data1);
+  const data2 = await luckyDraw("Jorge");
+  console.log(data2);
+  const data3 = await luckyDraw("Julien");
+  console.log(data3);
+}
 
-luckyDraw("Joe")
-  .then((result) => {
-    console.log(result);
-    return luckyDraw("Carolina");
-  })
-  .then((result) => {
-    console.log(result);
-    return luckyDraw("Sabrina");
-  })
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+getResults();
