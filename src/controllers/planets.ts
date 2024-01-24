@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Joi from "joi";
-import multer from "multer";
 import pgPromise from "pg-promise";
 
 const db = pgPromise(/* options here */)(
@@ -12,7 +11,8 @@ const setupDb = async () => {
 
   CREATE TABLE planets(
     id SERIAL NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    image TEXT
   );
   `);
   await db.none(`INSERT INTO planets (name) VALUES ('Earth')`);
@@ -62,9 +62,16 @@ const deleteById = async (req: Request, res: Response) => {
   await db.none(`DELETE FROM planets WHERE id=$1`, Number(id));
   res.status(200).json({ msg: "Planet deleted" });
 };
-const createImage = async () => (req: Request, res: Response) => {
+const createImage = async (req: Request, res: Response) => {
   console.log(req.file);
-  res.status(201).json({ msg: "Planet img uploaded" });
+  const { id } = req.params;
+  const filename = req.file?.path;
+  if (filename) {
+    db.none(`UPDATE planets SET image =$2 WHERE id=$1`, [id, filename]);
+    res.status(201).json({ msg: "Planet img uploaded" });
+  } else {
+    res.status(400).json({ msg: "Planet image failed to upload" });
+  }
 };
 
 export { getAll, getOneById, create, updateById, deleteById, createImage };

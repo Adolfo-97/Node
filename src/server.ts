@@ -36,7 +36,7 @@ app.post("/planets/", create);
 app.put("/planets/:id", updateById);
 app.delete("/planets/:id", deleteById);
 
-app.post("planets/:id/image", createImage);
+app.post("/planets/:id/image", upload.single("image"), createImage);
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`);
