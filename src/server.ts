@@ -8,6 +8,7 @@ import {
   deleteById,
   createImage,
 } from "./controllers/planets.js";
+import { logIn, signUp } from "./controllers/users.js";
 import multer from "multer";
 dotenv.config();
 
@@ -37,6 +38,9 @@ app.put("/planets/:id", updateById);
 app.delete("/planets/:id", deleteById);
 
 app.post("/planets/:id/image", upload.single("image"), createImage);
+
+app.post("/users/login", logIn);
+app.post("/users/signup", signUp);
 
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`);
