@@ -8,8 +8,10 @@ import {
   deleteById,
   createImage,
 } from "./controllers/planets.js";
-import { logIn, signUp } from "./controllers/users.js";
+import { logIn, signUp, logOut } from "./controllers/users.js";
 import multer from "multer";
+import authorize from "./authorize.js";
+import "./passwport.js";
 dotenv.config();
 
 const storage = multer.diskStorage({
@@ -41,7 +43,7 @@ app.post("/planets/:id/image", upload.single("image"), createImage);
 
 app.post("/users/login", logIn);
 app.post("/users/signup", signUp);
-
+app.get("/users/logout", authorize, logOut);
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`);
 });
